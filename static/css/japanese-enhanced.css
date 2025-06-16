@@ -1,0 +1,501 @@
+/* Enhanced Japanese Style Menu */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Sawarabi+Mincho:wght@400;500&display=swap');
+
+:root {
+    --sumi-black: #1A1A1A;
+    --japanese-red: #C62828;
+    --warm-white: #FAFAF7;
+    --bamboo-green: #7CB342;
+    --gold-accent: #FFB300;
+    --charcoal: #424242;
+    --paper-cream: #F5F3F0;
+    --border-zen: #E0DDD6;
+    --shadow-soft: rgba(0, 0, 0, 0.1);
+    --gradient-red: linear-gradient(135deg, #C62828, #E53935);
+    --gradient-gold: linear-gradient(135deg, #FFB300, #FF8F00);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.7;
+    color: var(--sumi-black);
+    background: var(--warm-white);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Japanese Background Pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(199, 40, 40, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(124, 179, 66, 0.02) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Elegant Header */
+.japanese-header {
+    background: var(--gradient-red);
+    color: var(--warm-white);
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow-soft);
+}
+
+.japanese-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    z-index: 1;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.restaurant-emblem {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 2rem;
+    background: var(--gradient-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.restaurant-name {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 3.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.restaurant-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    opacity: 0.95;
+    margin-bottom: 1.5rem;
+}
+
+.quality-badge {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+}
+
+/* Enhanced Navigation */
+.enhanced-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-bottom: 3px solid var(--gold-accent);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 15px var(--shadow-soft);
+}
+
+.nav-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.nav-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    flex-shrink: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    text-decoration: none;
+    color: var(--sumi-black);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    letter-spacing: 0.5px;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: var(--japanese-red);
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.05), rgba(199, 40, 40, 0.03));
+}
+
+.nav-link:hover::before {
+    width: 70%;
+}
+
+.nav-emoji {
+    font-size: 1.3rem;
+    margin-right: 0.8rem;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Content Container */
+.content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* Category Sections */
+.category-block {
+    background: white;
+    margin-bottom: 4rem;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px var(--shadow-soft);
+    border: 2px solid var(--border-zen);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.category-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.category-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-gold);
+}
+
+.category-header {
+    background: var(--sumi-black);
+    color: var(--warm-white);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.category-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--gold-accent);
+}
+
+.category-title {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.category-desc {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* Menu Items */
+.menu-list {
+    padding: 0;
+}
+
+.menu-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid var(--border-zen);
+    transition: all 0.3s ease;
+    position: relative;
+    background: white;
+}
+
+.menu-entry:last-child {
+    border-bottom: none;
+}
+
+.menu-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--gradient-gold);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.menu-entry::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold-accent);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.menu-entry:hover {
+    background: linear-gradient(135deg, var(--paper-cream), rgba(255, 179, 0, 0.03));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--shadow-soft);
+}
+
+.menu-entry:hover::before {
+    transform: scaleY(1);
+}
+
+.menu-entry:hover::after {
+    width: 90%;
+}
+
+.item-details {
+    flex: 1;
+    margin-right: 2rem;
+}
+
+.item-title {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--sumi-black);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+}
+
+.item-desc {
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    line-height: 1.5;
+    font-style: italic;
+    opacity: 0.85;
+    max-width: 600px;
+}
+
+.item-cost {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--japanese-red);
+    white-space: nowrap;
+    position: relative;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, rgba(199, 40, 40, 0.1), rgba(199, 40, 40, 0.05));
+    border-radius: 30px;
+    border: 2px solid var(--gold-accent);
+    box-shadow: 0 2px 8px rgba(199, 40, 40, 0.15);
+    transition: all 0.3s ease;
+}
+
+.menu-entry:hover .item-cost {
+    background: var(--gradient-red);
+    color: white;
+    box-shadow: 0 4px 15px rgba(199, 40, 40, 0.3);
+    transform: scale(1.05);
+}
+
+/* Decorative Elements */
+.zen-divider {
+    width: 100px;
+    height: 3px;
+    background: var(--gradient-gold);
+    margin: 3rem auto;
+    position: relative;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(255, 179, 0, 0.3);
+}
+
+.zen-divider::before,
+.zen-divider::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 10px;
+    height: 10px;
+    background: var(--gold-accent);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(255, 179, 0, 0.4);
+}
+
+.zen-divider::before {
+    left: -20px;
+}
+
+.zen-divider::after {
+    right: -20px;
+}
+
+/* Footer */
+.zen-footer {
+    background: var(--sumi-black);
+    color: var(--warm-white);
+    text-align: center;
+    padding: 3rem 2rem;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.footer-ornament {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.footer-text {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+/* Special Effects */
+.sparkle {
+    position: relative;
+    overflow: hidden;
+}
+
+.sparkle::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 179, 0, 0.3), transparent);
+    animation: sparkle 3s infinite;
+}
+
+@keyframes sparkle {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-name {
+        font-size: 2.5rem;
+    }
+    
+    .nav-link {
+        padding: 1.2rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .content-container {
+        padding: 2rem 1rem;
+    }
+    
+    .menu-entry {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .item-details {
+        margin-right: 0;
+    }
+    
+    .item-cost {
+        align-self: flex-end;
+    }
+    
+    .category-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .japanese-header {
+        padding: 3rem 1rem;
+    }
+    
+    .restaurant-name {
+        font-size: 2rem;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+    }
+    
+    .category-header {
+        padding: 1.5rem;
+    }
+    
+    .menu-entry {
+        padding: 1.2rem;
+    }
+    
+    .item-title {
+        font-size: 1.2rem;
+    }
+}

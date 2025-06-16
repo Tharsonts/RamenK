@@ -1,0 +1,885 @@
+/* CSS Custom Properties for Japanese Color Palette */
+:root {
+    --japanese-red: #C62828;
+    --japanese-red-light: #E53935;
+    --japanese-red-dark: #B71C1C;
+    --sumi-black: #1A1A1A;
+    --sumi-black-light: #2D2D2D;
+    --rice-white: #FAFAFA;
+    --matcha-green: #2E7D32;
+    --matcha-green-light: #4CAF50;
+    --gold: #FFD700;
+    --gold-light: #FFF59D;
+    --light-gray: #F8F9FA;
+    --medium-gray: #E9ECEF;
+    --dark-gray: #495057;
+    --border-color: #DEE2E6;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --shadow-heavy: rgba(0, 0, 0, 0.25);
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--sumi-black);
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(198, 40, 40, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(46, 125, 50, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.02) 0%, transparent 50%);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* Background Pattern */
+.background-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/static/images/seigaiha-pattern.svg');
+    background-repeat: repeat;
+    background-size: 100px 100px;
+    opacity: 0.03;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Header Styles */
+.header-section {
+    background: linear-gradient(135deg, var(--japanese-red), var(--japanese-red-dark));
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    box-shadow: 
+        0 20px 40px var(--shadow-medium),
+        inset 0 -5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/static/images/seigaiha-pattern.svg');
+    background-size: 80px 80px;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.logo-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ramen-icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.restaurant-name {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 5rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    text-shadow: 
+        4px 4px 8px rgba(0, 0, 0, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 3px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.restaurant-subtitle {
+    font-size: 1.4rem;
+    font-weight: 300;
+    opacity: 0.95;
+    margin-bottom: 0;
+    font-style: italic;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Styles */
+.sticky-nav {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.95));
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    box-shadow: 
+        0 20px 40px var(--shadow-medium),
+        0 8px 16px var(--shadow-light),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    width: 320px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-header {
+    background: linear-gradient(135deg, var(--japanese-red), var(--japanese-red-light));
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.nav-header h4 {
+    margin: 0;
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-category {
+    margin-bottom: 1rem;
+}
+
+.nav-category-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 1.5rem 2rem;
+    font-weight: 600;
+    color: var(--sumi-black);
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.8));
+    margin: 0 1rem 1.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-decoration: none;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.nav-category-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(198, 40, 40, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.nav-category-title:hover {
+    background: linear-gradient(135deg, var(--japanese-red), var(--japanese-red-light));
+    transform: translateY(-4px) scale(1.03);
+    border-color: var(--gold);
+    color: white;
+    box-shadow: 
+        0 16px 40px rgba(198, 40, 40, 0.25),
+        0 8px 20px rgba(198, 40, 40, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.nav-category-title:hover::before {
+    left: 100%;
+}
+
+.category-icon {
+    margin-right: 1.2rem;
+    font-size: 1.6rem;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 40px;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.nav-category-title:hover .category-icon {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+    text-decoration: none;
+    color: var(--dark-gray);
+    border-radius: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-size: 0.85rem;
+    font-weight: 500;
+    position: relative;
+    background: transparent;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--japanese-red), var(--matcha-green));
+    transform: scaleY(0);
+    transition: transform 0.4s ease;
+    transform-origin: center;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--japanese-red);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: linear-gradient(90deg, rgba(198, 40, 40, 0.08), rgba(198, 40, 40, 0.03));
+    color: var(--japanese-red);
+    transform: translateX(8px);
+    font-weight: 600;
+    box-shadow: inset 0 0 10px rgba(198, 40, 40, 0.1);
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+    transform: scaleY(1);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    opacity: 1;
+}
+
+.nav-icon {
+    margin-right: 0.6rem;
+    font-size: 1rem;
+}
+
+/* Custom Scrollbar for Navigation */
+.nav-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.nav-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.nav-list::-webkit-scrollbar-thumb {
+    background: var(--japanese-red);
+    border-radius: 2px;
+}
+
+.nav-list::-webkit-scrollbar-thumb:hover {
+    background: hsl(355, 70%, 40%);
+}
+
+/* Mobile Navigation */
+.mobile-nav-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+}
+
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1002;
+    display: none;
+    backdrop-filter: blur(5px);
+}
+
+.mobile-nav.active {
+    display: block;
+}
+
+.mobile-nav-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-nav-header h4 {
+    font-family: 'Sawarabi Mincho', serif;
+    color: var(--japanese-red);
+    margin: 0;
+}
+
+.mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-nav-list li {
+    margin-bottom: 0.5rem;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--sumi-black);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-align: center;
+}
+
+.mobile-nav-link:hover {
+    background-color: var(--light-gray);
+    color: var(--japanese-red);
+}
+
+/* Main Content */
+.main-content {
+    padding: 3rem 0;
+    margin-left: 0;
+}
+
+@media (min-width: 992px) {
+    .main-content {
+        margin-left: 320px;
+    }
+}
+
+/* Menu Categories */
+.menu-category {
+    margin-bottom: 6rem;
+    background: linear-gradient(135deg, #fafbfc, #ffffff);
+    border-radius: 25px;
+    padding: 3rem;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--japanese-red), var(--matcha-green), var(--japanese-red));
+}
+
+.category-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.category-title {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: var(--sumi-black);
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+    letter-spacing: 2px;
+}
+
+.category-subtitle {
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    font-style: italic;
+    margin: 0;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Menu Section */
+.menu-section {
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-section::before {
+    display: none;
+}
+
+.menu-section:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.menu-section:nth-child(odd) {
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--japanese-red);
+    position: relative;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 50px;
+    height: 1px;
+    background: var(--japanese-red);
+}
+
+.section-icon {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+    padding: 0.5rem;
+    background: var(--japanese-red);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    min-height: 50px;
+    border: none;
+    text-shadow: none;
+}
+
+.section-title {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--sumi-black);
+    margin: 0;
+    text-shadow: none;
+    letter-spacing: 0.5px;
+}
+
+/* Menu Items List */
+.menu-items-list {
+    background: white;
+    border-radius: 8px;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+/* Menu Item Card */
+.menu-item-card {
+    background: white;
+    border-radius: 0;
+    padding: 1.5rem 2rem;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    height: auto;
+    position: relative;
+    overflow: visible;
+}
+
+.menu-item-card:last-child {
+    border-bottom: none;
+}
+
+.menu-item-card::before {
+    display: none;
+}
+
+.menu-item-card::after {
+    display: none;
+}
+
+.menu-item-card:hover {
+    background: rgba(248, 249, 250, 0.8);
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border-color);
+}
+
+
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.item-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--sumi-black);
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+    letter-spacing: 0.5px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.item-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--japanese-red);
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    white-space: nowrap;
+    box-shadow: none;
+    position: relative;
+    overflow: visible;
+    text-shadow: none;
+    letter-spacing: 0.5px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.item-price::before {
+    display: none;
+}
+
+.item-description {
+    font-size: 0.95rem;
+    color: var(--dark-gray);
+    line-height: 1.5;
+    margin: 0.3rem 0 0 0;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+    font-style: italic;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    border-left: none;
+}
+
+/* Footer */
+.footer-section {
+    background: linear-gradient(135deg, var(--sumi-black), hsl(217, 25%, 20%));
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-top: 4rem;
+    position: relative;
+}
+
+.footer-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/static/images/seigaiha-pattern.svg');
+    background-size: 60px 60px;
+    opacity: 0.05;
+}
+
+.footer-text {
+    font-family: 'Sawarabi Mincho', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-decorative {
+    position: relative;
+    z-index: 2;
+}
+
+.footer-decorative span {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .restaurant-name {
+        font-size: 2.8rem;
+    }
+    
+    .category-title {
+        font-size: 2.2rem;
+    }
+    
+    .category-subtitle {
+        font-size: 1rem;
+    }
+    
+    .menu-category {
+        padding: 2rem;
+        margin-bottom: 4rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .section-icon {
+        font-size: 1.8rem;
+        min-width: 50px;
+        min-height: 50px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 2rem 0;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .restaurant-name {
+        font-size: 2.2rem;
+    }
+    
+    .restaurant-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .section-icon {
+        margin-right: 0;
+    }
+    
+    .item-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    
+    .item-price {
+        align-self: flex-end;
+        text-align: center;
+    }
+    
+    .footer-text {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .header-section {
+        padding: 1.5rem 0;
+    }
+    
+    .restaurant-name {
+        font-size: 2rem;
+    }
+    
+    .ramen-icon {
+        font-size: 3rem;
+    }
+    
+    .menu-item-card {
+        padding: 1.25rem;
+    }
+    
+    .item-name {
+        font-size: 1.1rem;
+    }
+    
+    .item-price {
+        font-size: 1rem;
+    }
+    
+    .item-description {
+        font-size: 0.9rem;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--japanese-red);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(355, 70%, 40%);
+}
+
+/* Focus States for Accessibility */
+.nav-link:focus,
+.mobile-nav-link:focus,
+button:focus {
+    outline: 2px solid var(--matcha-green);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .sticky-nav,
+    .mobile-nav-toggle,
+    .mobile-nav {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+    
+    .menu-item-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid var(--border-color);
+    }
+}

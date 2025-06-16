@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Novo Prato - RamenK Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d4b064;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(212, 176, 100, 0.1);
+            color: #d4b064;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #d4b064;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #f4d77a;
+        }
+
+        .breadcrumb-separator {
+            color: #666;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d4b064;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            background: rgba(212, 176, 100, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #d4b064;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 4px rgba(212, 176, 100, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .price-input-wrapper {
+            position: relative;
+        }
+
+        .price-prefix {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4b064;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .price-input {
+            padding-left: 3rem;
+        }
+
+        .image-upload-area {
+            border: 2px dashed rgba(212, 176, 100, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(212, 176, 100, 0.05);
+        }
+
+        .image-upload-area:hover {
+            border-color: rgba(212, 176, 100, 0.5);
+            background: rgba(212, 176, 100, 0.1);
+        }
+
+        .image-upload-area.drag-over {
+            border-color: #d4b064;
+            background: rgba(212, 176, 100, 0.15);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #d4b064;
+        }
+
+        .upload-text {
+            color: #e0e0e0;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            color: #1a1a1a;
+            box-shadow: 0 4px 20px rgba(212, 176, 100, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 176, 100, 0.4);
+        }
+
+        .preview-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .preview-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #d4b064;
+        }
+
+        .image-upload-area {
+            border: 2px dashed rgba(212, 176, 100, 0.3);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(212, 176, 100, 0.05);
+        }
+
+        .image-upload-area:hover {
+            border-color: rgba(212, 176, 100, 0.6);
+            background: rgba(212, 176, 100, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .preview-image {
+            max-width: 200px;
+            max-height: 150px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .form-select.custom-select {
+            padding: 10px 36px 10px 40px;
+            border: 2px solid #FFD700;
+            border-radius: 8px;
+            background: #232323 url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4c1.svg') 10px center/22px 22px no-repeat;
+            color: #fff;
+            font-size: 1.08rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .form-select.custom-select:focus, .form-select.custom-select:hover {
+            border-color: #FFB300;
+            outline: none;
+            box-shadow: 0 0 0 2px #FFD70044;
+            background-color: #282828;
+        }
+        .form-select.custom-select option {
+            color: #232323;
+            background: #fffbe6;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">🍜</div>
+            <h1 class="header-title">RamenK Admin</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('admin_sections') }}" class="nav-link">Seções</a>
+
+            <a href="{{ url_for('admin_logout') }}" class="nav-link">Sair</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="{{ url_for('admin_sections') }}">Seções</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="{{ url_for('admin_section_items', section_id=section_id) }}">{{ section.name or 'Seção' }}</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>Novo Prato</span>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Adicionar Novo Prato</h1>
+            <p class="page-subtitle">Crie um prato delicioso para o cardápio</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form method="POST" enctype="multipart/form-data" class="form-container" id="dishForm">
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span class="section-icon">🍽️</span>
+                    Informações Básicas
+                </h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Nome do Prato *</label>
+                        <input type="text" id="name" name="name" class="form-input" required 
+                               placeholder="Ex: Ramen Shoyu Tradicional">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="price">Preço *</label>
+                        <div class="price-input-wrapper">
+                            <span class="price-prefix">R$</span>
+                            <input type="text" id="price" name="price" class="form-input price-input" required 
+                                   placeholder="0,00" value="0,00" pattern="[0-9]+([,][0-9]{2})?" 
+                                   title="Formato: 00,00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label class="form-label" for="description">Descrição</label>
+                    <textarea id="description" name="description" class="form-textarea" 
+                              placeholder="Descreva os ingredientes, sabores e características especiais do prato..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span class="section-icon">📸</span>
+                    Imagem do Prato
+                </h3>
+                
+                <div class="image-upload-area" onclick="document.getElementById('image').click()" id="uploadArea">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">Clique para adicionar uma imagem</div>
+                    <div class="upload-hint">PNG, JPG, JPEG, GIF, WEBP até 16MB</div>
+                </div>
+                <input type="file" id="image" name="image" class="file-input" accept="image/*">
+                <div class="image-preview" id="imagePreview" style="display: none;">
+                    <img id="previewImg" class="preview-image" alt="Preview">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span class="section-icon">📋</span>
+                    Categorização
+                </h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="subsection">Subseção (Opcional)</label>
+                        <select id="subsection" name="subsection_id" class="form-select custom-select">
+                            <option value="">Selecione uma subseção</option>
+                            {% if subsections %}
+                                {% for subsection in subsections %}
+                                <option value="{{ loop.index0 }}">📁 {{ subsection.title }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="position">Posição na Lista</label>
+                        <input type="number" id="position" name="position" class="form-input" 
+                               value="0" min="0" placeholder="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3 class="section-title">
+                    <span class="section-icon">👁️</span>
+                    Preview do Prato
+                </h3>
+                
+                <div class="preview-card" id="previewCard">
+                    <div class="preview-title" id="previewName">Nome do Prato</div>
+                    <div class="preview-description" id="previewDescription">Descrição aparecerá aqui...</div>
+                    <div class="preview-price" id="previewPrice">R$ 0,00</div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('admin_section_items', section_id=section_id) }}" class="btn btn-secondary">
+                    <span>←</span>
+                    Cancelar
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <span>✓</span>
+                    Adicionar Prato
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Preview em tempo real
+        document.getElementById('name').addEventListener('input', function() {
+            document.getElementById('previewName').textContent = this.value || 'Nome do Prato';
+        });
+
+        document.getElementById('description').addEventListener('input', function() {
+            document.getElementById('previewDescription').textContent = this.value || 'Descrição aparecerá aqui...';
+        });
+
+        document.getElementById('price').addEventListener('input', function() {
+            let value = this.value;
+            if (value) {
+                document.getElementById('previewPrice').textContent = 'R$ ' + value;
+            } else {
+                document.getElementById('previewPrice').textContent = 'R$ 0,00';
+            }
+        });
+
+        // Preview da imagem
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 16 * 1024 * 1024) { // 16MB
+                    alert('Arquivo muito grande! Máximo 16MB.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                    
+                    // Atualizar área de upload
+                    const uploadArea = document.getElementById('uploadArea');
+                    uploadArea.innerHTML = `
+                        <div class="upload-icon">✅</div>
+                        <div class="upload-text">Imagem selecionada</div>
+                        <div class="upload-hint">${file.name}</div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Formatação automática do preço
+        document.getElementById('price').addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, '');
+            
+            // Garantir pelo menos 2 dígitos para centavos
+            if (value.length === 0) {
+                this.value = '';
+                return;
+            }
+            
+            if (value.length === 1) {
+                value = '0' + value;
+            }
+            
+            // Sempre formatar com vírgula para centavos
+            if (value.length >= 2) {
+                value = value.slice(0, -2) + ',' + value.slice(-2);
+            }
+            
+            this.value = value;
+        });
+
+        // Garantir formato correto ao sair do campo
+        document.getElementById('price').addEventListener('blur', function() {
+            let value = this.value.replace(/\D/g, '');
+            
+            if (value.length === 0) {
+                this.value = '0,00';
+                return;
+            }
+            
+            if (value.length === 1) {
+                value = '00' + value;
+            } else if (value.length === 2) {
+                value = '0' + value;
+            }
+            
+            value = value.slice(0, -2) + ',' + value.slice(-2);
+            this.value = value;
+        });
+
+        // Upload de imagem com drag & drop
+        const uploadArea = document.querySelector('.image-upload-area');
+        const fileInput = document.getElementById('image');
+
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                updateUploadText(files[0].name);
+            }
+        });
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                updateUploadText(this.files[0].name);
+            }
+        });
+
+        function updateUploadText(filename) {
+            const uploadText = document.querySelector('.upload-text');
+            const uploadHint = document.querySelector('.upload-hint');
+            uploadText.textContent = filename;
+            uploadHint.textContent = 'Arquivo selecionado';
+        }
+
+        // Validação do formulário
+        document.getElementById('dishForm').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            
+            if (!name.trim()) {
+                showError('Nome do prato é obrigatório');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!price.trim()) {
+                showError('Preço é obrigatório');
+                e.preventDefault();
+                return;
+            }
+            
+            if (!price.match(/^[0-9]+([,][0-9]{2})?$/)) {
+                showError('Formato de preço inválido. Use: 00,00');
+                e.preventDefault();
+                return;
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            successDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

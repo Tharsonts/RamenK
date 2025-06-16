@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Seção - RamenK Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #d4b064;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(212, 176, 100, 0.1);
+            color: #d4b064;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #d4b064;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #d4b064;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(212, 176, 100, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #888;
+        }
+
+        .form-help {
+            font-size: 0.8rem;
+            color: #a0a0a0;
+            margin-top: 0.5rem;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .icon-option {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .icon-option:hover {
+            border-color: rgba(212, 176, 100, 0.5);
+            background: rgba(212, 176, 100, 0.1);
+        }
+
+        .icon-option.selected {
+            border-color: #d4b064;
+            background: rgba(212, 176, 100, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            color: #1a1a1a;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 176, 100, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">🍜</div>
+            <h1 class="header-title">RamenK Admin</h1>
+        </div>
+        <nav class="nav-menu">
+            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+            <a href="{{ url_for('admin_sections') }}" class="nav-link">Seções</a>
+            <a href="{{ url_for('admin_preview') }}" class="nav-link">Preview</a>
+            <a href="{{ url_for('admin_logout') }}" class="nav-link">Sair</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h1 class="page-title">Nova Seção</h1>
+            <p class="page-subtitle">Criar uma nova seção para o cardápio</p>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label for="name" class="form-label">Nome da Seção</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Ex: Executivo, Noodles, Sushi Bar" required>
+                    <div class="form-help">Nome que aparecerá no menu lateral para os clientes</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="section_id" class="form-label">ID da Seção</label>
+                    <input type="text" id="section_id" name="section_id" class="form-input" placeholder="Ex: executivo, noodles, sushi-bar" required>
+                    <div class="form-help">Identificador único (sem espaços, use hífen se necessário)</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ícone da Seção</label>
+                    <input type="hidden" id="icon" name="icon" value="🍽️">
+                    <div class="icon-grid">
+                        <div class="icon-option selected" onclick="selectIcon('🍽️', this)">🍽️</div>
+                        <div class="icon-option" onclick="selectIcon('🍜', this)">🍜</div>
+                        <div class="icon-option" onclick="selectIcon('🍱', this)">🍱</div>
+                        <div class="icon-option" onclick="selectIcon('🍣', this)">🍣</div>
+                        <div class="icon-option" onclick="selectIcon('🍢', this)">🍢</div>
+                        <div class="icon-option" onclick="selectIcon('🔥', this)">🔥</div>
+                        <div class="icon-option" onclick="selectIcon('🥢', this)">🥢</div>
+                        <div class="icon-option" onclick="selectIcon('🍶', this)">🍶</div>
+                        <div class="icon-option" onclick="selectIcon('🥤', this)">🥤</div>
+                        <div class="icon-option" onclick="selectIcon('🍡', this)">🍡</div>
+                    </div>
+                    <div class="form-help">Escolha um ícone que represente a seção</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="subtitle" class="form-label">Subtítulo (Opcional)</label>
+                    <input type="text" id="subtitle" name="subtitle" class="form-input" placeholder="Ex: Somente Almoço Terça a Sexta">
+                    <div class="form-help">Texto adicional que aparecerá abaixo do nome da seção</div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Criar Seção</button>
+                    <a href="{{ url_for('admin_sections') }}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function selectIcon(icon, element) {
+            // Remove selected class from all icons
+            document.querySelectorAll('.icon-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked icon
+            element.classList.add('selected');
+            
+            // Update hidden input
+            document.getElementById('icon').value = icon;
+        }
+
+        // Auto-generate section ID from name
+        document.getElementById('name').addEventListener('input', function(e) {
+            const name = e.target.value;
+            const id = name.toLowerCase()
+                          .replace(/[^\w\s-]/g, '') // Remove special characters
+                          .replace(/\s+/g, '-')     // Replace spaces with hyphens
+                          .replace(/-+/g, '-')      // Replace multiple hyphens with single
+                          .trim();
+            document.getElementById('section_id').value = id;
+        });
+    </script>
+</body>
+</html>

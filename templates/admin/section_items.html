@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ section.get('name', 'Seção') }} - Gerenciar Itens - RamenK Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(212, 176, 100, 0.3);
+        }
+
+        .header-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #d4b064;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(212, 176, 100, 0.15);
+            color: #d4b064;
+            transform: translateY(-1px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .breadcrumb a {
+            color: #d4b064;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #f4d77a;
+        }
+
+        .breadcrumb-separator {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 176, 100, 0.15);
+            border: 1px solid rgba(212, 176, 100, 0.3);
+            color: #d4b064;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #d4b064 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            color: #a0a0a0;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            color: #1a1a1a;
+            box-shadow: 0 4px 20px rgba(212, 176, 100, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(212, 176, 100, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4b064;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(212, 176, 100, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .subsection {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .subsection:last-child {
+            border-bottom: none;
+        }
+
+        .subsection-header {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .subsection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #d4b064;
+            margin-bottom: 0.5rem;
+        }
+
+        .subsection-description {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .items-container {
+            padding: 2rem;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+        }
+
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #d4b064 0%, #f4d77a 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .item-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-card:hover::before {
+            opacity: 1;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+
+        .item-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d4b064;
+            white-space: nowrap;
+        }
+
+        .item-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.25rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            justify-content: center;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-action:hover::before {
+            left: 100%;
+        }
+
+        .btn-manage {
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            color: #ffffff;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-manage:hover {
+            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            color: #ffffff;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.2);
+        }
+
+        .btn-add:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            color: #ffffff;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+        }
+
+        .btn-edit:hover {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+            color: #ffffff;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.2);
+        }
+
+        .btn-delete:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(248, 113, 113, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 1rem;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #a0a0a0;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #e0e0e0;
+        }
+
+        .empty-description {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        .modal-icon.danger {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-icon.edit {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e0e0e0;
+        }
+
+        .modal-content {
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            color: #a0a0a0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 0.85rem 1.75rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #e0e0e0;
+        }
+
+        .modal-btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .modal-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #d4b064 0%, #f4d77a 100%);
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .modal-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 176, 100, 0.4);
+        }
+
+        .modal-icon.edit {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            color: #ffffff;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4b064;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(212, 176, 100, 0.2);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #d4b064;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .modal {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">🍜</div>
+                <h1 class="header-title">RamenK Admin</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('admin_sections') }}" class="nav-link">Seções</a>
+
+                <a href="{{ url_for('admin_logout') }}" class="nav-link">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="{{ url_for('admin_sections') }}">Seções</a>
+            <span class="breadcrumb-separator">›</span>
+            <span>{{ section.get('name', 'Seção') }}</span>
+        </div>
+
+        <div class="page-header">
+            <div class="header-info">
+                <div class="section-badge">
+                    <span>{{ section.get('icon', '🍽️') }}</span>
+                    Seção do Cardápio
+                </div>
+                <h1 class="page-title">{{ section.get('name', 'Seção') }}</h1>
+                <p class="page-subtitle">
+                    {% if section.get('subtitle') %}
+                        {{ section.subtitle }}
+                    {% else %}
+                        Gerencie os pratos e subseções desta categoria
+                    {% endif %}
+                </p>
+            </div>
+            <div class="header-actions">
+                <a href="{{ url_for('admin_create_item', section_id=section.id) }}" class="btn btn-primary">
+                    <span>+</span>
+                    Novo Prato
+                </a>
+                <a href="{{ url_for('admin_create_subsection', section_id=section.id) }}" class="btn btn-secondary">
+                    <span>📁</span>
+                    Nova Subseção
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🍽️</div>
+                <div class="stat-number">
+                    {% if section.get('items') %}
+                        {{ section.get('items', [])|length }}
+                    {% elif section.get('subsections') %}
+                        {% set total_items = 0 %}
+                        {% for subsection in section.subsections %}
+                            {% set total_items = total_items + (subsection.get('items', [])|length) %}
+                        {% endfor %}
+                        {{ total_items }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </div>
+                <div class="stat-label">Total de Pratos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📁</div>
+                <div class="stat-number">{{ section.get('subsections', [])|length }}</div>
+                <div class="stat-label">Subseções</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👁️</div>
+                <div class="stat-number">{{ section.get('position', 0) }}</div>
+                <div class="stat-label">Posição no Menu</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <!-- Exibir itens diretos da seção primeiro -->
+            {% if section.get('items') %}
+                <div class="section">
+                    <div class="section-header">
+                        <h3 class="section-title">
+                            <span class="section-icon">{{ section.get('icon', '🍽️') }}</span>
+                            Pratos da Seção
+                        </h3>
+                    </div>
+                    
+                    <div class="items-container">
+                        <div class="filter-bar">
+                            <input type="text" class="search-input" placeholder="Buscar pratos..." onkeyup="filterItems(this)">
+                        </div>
+                        <div class="items-grid">
+                            {% for item in section.get('items', []) %}
+                        <div class="item-card" data-name="{{ item.get('name', '').lower() }}">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <div class="item-name">{{ item.get('name', 'Sem nome') }}</div>
+                                </div>
+                                <div class="item-price">{{ item.get('price', 'R$ 0,00') }}</div>
+                            </div>
+                            {% if item.get('description') %}
+                            <div class="item-description">{{ item.description }}</div>
+                            {% endif %}
+                            <div class="item-actions">
+                                <button onclick="openEditModal('{{ loop.index0 }}', '{{ item.get('name', '') }}', '{{ item.get('price', '') }}', '{{ item.get('description', '') }}')" class="btn-action btn-edit">
+                                    <span>✏️</span>
+                                    Editar
+                                </button>
+                                <form method="POST" action="{{ url_for('admin_delete_item', section_id=section.id, item_index=loop.index0) }}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir {{ item.get('name', 'este item') }}?')">
+                                    <button type="submit" class="btn-action btn-delete">
+                                        <span>🗑️</span>
+                                        Excluir
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+            {% endif %}
+            
+            <!-- Exibir subseções se existirem -->
+            {% if section.get('subsections') %}
+                {% for subsection in section.subsections %}
+                <div class="subsection">
+                    <div class="subsection-header">
+                        <h3 class="subsection-title">{{ subsection.get('title', 'Subseção') }}</h3>
+                        {% if subsection.get('description') %}
+                        <div class="subsection-description">{{ subsection.description }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if subsection.get('items') %}
+                    <div class="items-container">
+                        <div class="filter-bar">
+                            <input type="text" class="search-input" placeholder="Buscar pratos nesta subseção..." onkeyup="filterItems(this)">
+                        </div>
+                        <div class="items-grid">
+                            {% for item in subsection.get('items', []) %}
+                            <div class="item-card" data-name="{{ item.get('name', '').lower() }}">
+                                <div class="item-header">
+                                    <div class="item-info">
+                                        <div class="item-name">{{ item.get('name', 'Sem nome') }}</div>
+                                    </div>
+                                    <div class="item-price">{{ item.get('price', 'R$ 0,00') }}</div>
+                                </div>
+                                {% if item.get('description') %}
+                                <div class="item-description">{{ item.description }}</div>
+                                {% endif %}
+                                <div class="item-actions">
+                                    <button onclick="openEditModal('{{ loop.index0 }}', '{{ item.get('name', '') }}', '{{ item.get('price', '') }}', '{{ item.get('description', '') }}')" class="btn-action btn-edit">
+                                        <span>✏️</span>
+                                        Editar
+                                    </button>
+                                    <form method="POST" action="{{ url_for('admin_delete_item', section_id=section.id, item_index=loop.index0) }}" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir {{ item.get('name', 'este item') }}?')">
+                                        <button type="submit" class="btn-action btn-delete">
+                                            <span>🗑️</span>
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-icon">🍽️</div>
+                        <h3 class="empty-title">Nenhum prato nesta subseção</h3>
+                        <p class="empty-description">Comece adicionando o primeiro prato a esta subseção.</p>
+                        <a href="{{ url_for('admin_create_item', section_id=section.id) }}" class="btn btn-primary">Adicionar Primeiro Prato</a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Exibir estado vazio se não há itens nem subseções -->
+            {% if not section.get('items') and not section.get('subsections') %}
+                <div class="empty-state">
+                    <div class="empty-icon">🍽️</div>
+                    <h3 class="empty-title">Nenhum prato encontrado</h3>
+                    <p class="empty-description">Comece adicionando o primeiro prato a esta seção.</p>
+                    <a href="{{ url_for('admin_create_item', section_id=section.id) }}" class="btn btn-primary">Adicionar Primeiro Prato</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon edit">✏️</div>
+                <h3 class="modal-title">Editar Item</h3>
+            </div>
+            <form id="editForm" method="POST">
+                <div class="modal-content">
+                    <div class="form-group">
+                        <label for="editName">Nome do Prato *</label>
+                        <input type="text" id="editName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice">Preço *</label>
+                        <input type="text" id="editPrice" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Descrição</label>
+                        <textarea id="editDescription" name="description" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn modal-btn-cancel" onclick="closeModal('editModal')">Cancelar</button>
+                    <button type="submit" class="modal-btn modal-btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon danger">⚠️</div>
+                <h3 class="modal-title">Confirmar Exclusão</h3>
+            </div>
+            <div class="modal-content">
+                <p>Tem certeza que deseja excluir "<strong id="deleteItemName"></strong>"?</p>
+                <p>Esta ação não pode ser desfeita e o prato será removido permanentemente do cardápio.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" onclick="closeModal('deleteModal')">Cancelar</button>
+                <button class="modal-btn modal-btn-danger" id="confirmDeleteBtn">Excluir Permanentemente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentItemIndex = null;
+        let currentItemType = null;
+
+        function confirmDelete(itemName, itemType, itemIndex) {
+            document.getElementById('deleteItemName').textContent = itemName;
+            currentItemIndex = itemIndex;
+            currentItemType = itemType;
+            
+            document.getElementById('confirmDeleteBtn').onclick = function() {
+                deleteItem(itemIndex, itemType);
+            };
+            
+            showModal('deleteModal');
+        }
+
+        function openEditModal(itemIndex, name, price, description) {
+            currentItemIndex = itemIndex;
+            
+            // Preencher os campos do modal
+            document.getElementById('editName').value = name;
+            document.getElementById('editPrice').value = price;
+            document.getElementById('editDescription').value = description;
+            
+            // Configurar action do formulário
+            const sectionId = '{{ section.id }}';
+            document.getElementById('editForm').action = `/admin/sections/${sectionId}/items/${itemIndex}/edit`;
+            
+            showModal('editModal');
+        }
+
+        function deleteItem(itemIndex, itemType) {
+            console.log(`Excluindo ${itemType} ${itemIndex}`);
+            
+            showNotification('Item excluído com sucesso!', 'success');
+            closeModal('deleteModal');
+            
+            // Simular remoção do DOM
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 25px;
+                right: 25px;
+                padding: 1.25rem 1.75rem;
+                border-radius: 12px;
+                color: white;
+                font-weight: 600;
+                z-index: 1001;
+                animation: slideInRight 0.4s ease;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                ${type === 'success' ? 'background: linear-gradient(135deg, #10b981, #059669);' : ''}
+                ${type === 'error' ? 'background: linear-gradient(135deg, #ef4444, #dc2626);' : ''}
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.4s ease';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 400);
+            }, 3500);
+        }
+
+        function filterItems(input) {
+            const searchTerm = input.value.toLowerCase();
+            const itemCards = input.closest('.items-container').querySelectorAll('.item-card');
+            
+            itemCards.forEach(card => {
+                const itemName = card.dataset.name;
+                if (itemName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(event.target.id);
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    closeModal(activeModal.id);
+                }
+            }
+        });
+
+        // Animações CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

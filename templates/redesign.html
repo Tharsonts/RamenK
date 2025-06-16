@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RamenK - Culinária Japonesa Autêntica</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ramenk-redesign.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍜</text></svg>">
+</head>
+<body>
+    <!-- Mobile Toggle Button -->
+    <button class="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+        ☰
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
+        <div class="sidebar-header">
+            <div class="sidebar-logo" aria-label="Logo RamenK">🍜</div>
+            <h1 class="sidebar-title">RamenK</h1>
+            <p class="sidebar-subtitle">和食の心</p>
+        </div>
+        
+        <nav class="sidebar-navigation">
+            <div class="menu-category">
+                <h3 class="category-title">Menu</h3>
+                <div class="menu-auto-layout" id="menuAutoLayout">
+                    {% for section in menu_sections %}
+                        {% if section.get('visible', True) %}
+                        <div class="sidebar-menu-item">
+                            <a href="#{{ section['id'] }}" class="sidebar-menu-link" onclick="scrollToSection('{{ section['id'] }}')" aria-label="Ir para {{ section['name'] }}">
+                                <span class="sidebar-menu-icon" aria-hidden="true">{{ section['icon'] }}</span>
+                                <span class="menu-text">{{ section['name'] }}</span>
+                            </a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+
+        </nav>
+        
+        <!-- Sidebar Footer with Instagram -->
+        <div class="sidebar-footer">
+            <div class="category-divider"></div>
+            <a href="https://instagram.com/espacoramenk" target="_blank" class="instagram-link" aria-label="Siga-nos no Instagram">
+                <i class="fab fa-instagram"></i> @espacoramenk
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section" role="banner">
+        <div class="hero-content">
+            <div class="hero-logo-circle">
+                <div class="hero-logo" aria-label="Logo principal RamenK">🍜</div>
+            </div>
+            <h1 class="hero-title">RamenK</h1>
+            <p class="hero-subtitle">和食の心 • A Essência da Culinária Japonesa</p>
+            <button class="hero-cta" onclick="scrollToSection('noodles')" aria-label="Ver cardápio completo">
+                Ver Cardápio Completo
+            </button>
+            
+            <!-- Informações da Unidade -->
+            <div class="restaurant-info">
+                <div class="info-item">
+                    <span class="info-icon">🏮</span>
+                    <span class="info-text">Unidade 1 – Quintal dos Sabores</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🗺️</span>
+                    <span class="info-text">Rua Apotribu, 101 – Metrô Saúde</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🕒</span>
+                    <span class="info-text">Terça a Sábado: 12h – 21:30h | Domingo: 12h – 16h</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container" role="main">
+        {% for section in menu_sections %}
+        {% if section.visible %}
+        <section class="menu-section" id="{{ section['id'] }}" aria-labelledby="title-{{ section['id'] }}">
+            <div class="section-header">
+                <h2 class="section-title" id="title-{{ section['id'] }}">{{ section['name'] }}</h2>
+                {% if section.get('subtitle') %}
+                <p class="section-subtitle">{{ section['subtitle'] }}</p>
+                {% endif %}
+                <div class="section-divider" aria-hidden="true"></div>
+            </div>
+            
+            <!-- Exibir itens diretos da seção primeiro -->
+            {% if section.get('items') %}
+                <div class="menu-grid">
+                    {% for item in section['items'] %}
+                    <article class="menu-card" onclick="openDishModal('{{ item['name'] }}', '{{ item['price'] }}', '{{ item.get('description', '') }}', '{{ section['name'] }}', '{{ item.get('image_path', '') }}')">
+                        {# Não mostrar imagem na listagem - deixe comentado ou remova #}
+                        {# {% if item.get('image_path') %}
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename=item['image_path']) }}" alt="{{ item['name'] }}" loading="lazy">
+                        </div>
+                        {% endif %} #}
+
+                        <div class="card-header">
+                            <div class="card-icon" aria-hidden="true">{{ item.get('icon', '🍽️') }}</div>
+                            <div class="card-info">
+                                <h3 class="card-title">{{ item['name'] }}</h3>
+                                {% if item.get('description') %}
+                                <p class="card-description">{{ item['description'] }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="card-price" aria-label="Preço: {{ item['price'] }}">
+                                {{ item['price'] }}
+                            </button>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Exibir subseções se existirem -->
+            {% if section.get('subsections') %}
+                {% for subsection in section['subsections'] %}
+                {% if subsection.get('items') %}
+                <div class="subsection">
+                    <h3 class="subsection-title">{{ subsection['title'] }}</h3>
+                    {% if subsection.get('description') %}
+                    <div class="subsection-description">
+                        {{ subsection['description'] }}
+                    </div>
+                    {% endif %}
+                    <div class="menu-grid">
+                        {% for item in subsection['items'] %}
+                        <article class="menu-card" onclick="openDishModal('{{ item['name'] }}', '{{ item['price'] }}', '{{ item.get('description', '') }}', '{{ section['name'] }}', '{{ item.get('image_path', '') }}')">
+                            <div class="card-header">
+                                <div class="card-icon" aria-hidden="true">🍽️</div>
+                                <div class="card-info">
+                                    <h4 class="card-title">{{ item['name'] }}</h4>
+                                    {% if item.get('description') %}
+                                    <p class="card-description">{{ item['description'] }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="card-price" aria-label="Preço: {{ item['price'] }}">
+                                    {{ item['price'] }}
+                                </button>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+        </section>
+        {% endif %}
+        {% endfor %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <h2 class="footer-title">RamenK</h2>
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h4>Horário de Funcionamento</h4>
+                    <p>Segunda a Sexta: 11h às 22h<br>
+                    Sábado e Domingo: 12h às 23h</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>Instagram: @espacoramenk<br>
+                    Delivery e Reservas</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Localização</h4>
+                    <p>Culinária Japonesa Autêntica<br>
+                    和食の心</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Smooth scroll to section - Enhanced version
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                // Calculate offset to account for any fixed headers
+                const headerOffset = 80; // Adjust this value based on your header height
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                // Use smooth scrolling with custom duration
+                smoothScrollTo(offsetPosition, 800); // 800ms duration
+            }
+            
+            // Close mobile sidebar after navigation
+            if (window.innerWidth <= 768) {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.remove('open');
+            }
+        }
+
+        // Custom smooth scroll function for better control
+        function smoothScrollTo(targetPosition, duration) {
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+
+            // Easing function for smooth animation
+            function easeInOutCubic(t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
+                t -= 2;
+                return c / 2 * (t * t * t + 2) + b;
+            }
+
+            requestAnimationFrame(animation);
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.mobile-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                sidebar && toggle &&
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+
+        // Update active navigation on scroll
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('.menu-section');
+            const navLinks = document.querySelectorAll('.sidebar-menu-link');
+            
+            let current = '';
+            sections.forEach((section) => {
+                const sectionTop = section.getBoundingClientRect().top;
+                if (sectionTop <= 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Throttled scroll event
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(updateActiveNavigation, 100);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateActiveNavigation();
+            console.log('RamenK redesign loaded successfully!');
+        });
+    </script>
+
+    <!-- Modal para Detalhes dos Pratos -->
+    <div id="dishModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button class="modal-close" onclick="closeDishModal()" aria-label="Fechar">×</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="" class="dish-image">
+                </div>
+                <div class="modal-info">
+                    <div id="modalCategory" class="modal-category"></div>
+                    <p id="modalDescription" class="modal-description"></p>
+                    <div id="modalFeatures" class="modal-features"></div>
+                    <div class="modal-price-container">
+                        <span id="modalPrice" class="modal-price"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para abrir modal com detalhes do prato
+        function openDishModal(name, price, description, category, imagePath) {
+            const modal = document.getElementById('dishModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalCategory = document.getElementById('modalCategory');
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalFeatures = document.getElementById('modalFeatures');
+            const modalPrice = document.getElementById('modalPrice');
+
+            // Configurar conteúdo do modal
+            modalTitle.textContent = name;
+            modalCategory.textContent = category;
+            modalPrice.textContent = price;
+            
+            // Descrições detalhadas para cada prato
+            const detailedDescriptions = getDishDescription(name, description, category);
+            modalDescription.textContent = detailedDescriptions.description;
+            
+            // Configurar características do prato
+            modalFeatures.innerHTML = '';
+            if (detailedDescriptions.features && detailedDescriptions.features.length > 0) {
+                detailedDescriptions.features.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'modal-feature';
+                    featureDiv.innerHTML = `
+                        <span class="modal-feature-icon">${feature.icon}</span>
+                        <span class="modal-feature-text">${feature.text}</span>
+                    `;
+                    modalFeatures.appendChild(featureDiv);
+                });
+            }
+            
+            // Configurar imagem - usar imagePath do banco de dados se disponível, senão usar a hardcoded
+            if (imagePath && imagePath.trim() !== '') {
+                modalImage.src = '/static/' + imagePath;
+            } else {
+                modalImage.src = detailedDescriptions.image;
+            }
+            modalImage.alt = name;
+
+            // Mostrar modal com animação
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Adicionar classe para animação
+            setTimeout(() => {
+                modal.querySelector('.modal-container').style.transform = 'translateY(0) scale(1)';
+            }, 10);
+        }
+
+        // Função para fechar modal
+        function closeDishModal() {
+            const modal = document.getElementById('dishModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('dishModal');
+            if (event.target === modal) {
+                closeDishModal();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeDishModal();
+            }
+        });
+
+        // Função para obter descrições detalhadas dos pratos
+        function getDishDescription(name, originalDescription, category) {
+            const descriptions = {
+                // Cardápio Executivo
+                'PF de Espetinhos - 1 Espeto': {
+                    description: 'Este prato é uma verdadeira combinação de sabores: um espeto grelhado no ponto perfeito, com carnes como frango, linguiça e carne bovina, acompanhados de arroz soltinho. Uma refeição simples e saborosa, ideal para quem busca um almoço rápido e delicioso, sem abrir mão do sabor.',
+                    image: '/static/img/executivo/pf-espetinhos-1-espeto.jpg',
+                    features: [
+                        { icon: '🔥', text: 'Grelhado' },
+                        { icon: '🥩', text: 'Carnes Variadas' },
+                        { icon: '🍚', text: 'Arroz' },
+                        { icon: '⚡', text: 'Rápido' }
+                    ]
+                },
+                'PF de Espetinhos - 2 Espetos': {
+                    description: 'Versão generosa do nosso popular PF de espetinhos, com dois espetos suculentos grelhados no carvão. Carnes variadas incluindo frango temperado, linguiça artesanal e carne bovina macia, servidos com arroz fresquinho e salada. Perfeito para quem tem um apetite maior.',
+                    image: '/static/img/executivo/pf-espetinhos-2-espetos.jpg',
+                    features: [
+                        { icon: '🔥', text: 'Grelhado' },
+                        { icon: '🥩', text: 'Porção Dupla' },
+                        { icon: '🥗', text: 'Com Salada' },
+                        { icon: '💪', text: 'Apetite Grande' }
+                    ]
+                },
+                'Lamen Shoyu': {
+                    description: 'Nosso autêntico lámen shoyu preparado com caldo dourado e aromático, macarrão artesanal al dente, fatias de chashu macias, ovo marinado, cebolinha fresca e alga nori. Uma experiência gastronômica que transporta você diretamente ao Japão.',
+                    image: '/static/img/pratos-principais/lamen-shoyu.jpg',
+                    features: [
+                        { icon: '🍜', text: 'Caldo Dourado' },
+                        { icon: '🥢', text: 'Artesanal' },
+                        { icon: '🥚', text: 'Ovo Marinado' },
+                        { icon: '🇯🇵', text: 'Autêntico' }
+                    ]
+                },
+                'Lamen Misso': {
+                    description: 'Lámen com base de misso caseiro, criando um caldo encorpado e saboroso com notas umami intensas. Acompanha macarrão fresco, chashu suculento, ovo perfeitamente cozido, brotos de bambu, cebolinha e uma pitada de pimenta vermelha para um toque especial.',
+                    image: '/static/img/pratos-principais/lamen-misso.jpg',
+                    features: [
+                        { icon: '🍲', text: 'Misso Caseiro' },
+                        { icon: '🌊', text: 'Umami' },
+                        { icon: '🌶️', text: 'Picante' },
+                        { icon: '🥄', text: 'Encorpado' }
+                    ]
+                },
+                'Hiyashi Lamen': {
+                    description: 'Macarrão artesanal no caldo gelado à base de shitake e kombu temperado com shoyu e vinagre. Com cenoura, pepino, omelete, rosbife de lombo suíno e nori. Uma experiência refrescante e única que combina sabores intensos em uma apresentação colorida e equilibrada.',
+                    image: '/static/img/pratos-principais/lamen-hiyashi.jpg',
+                    features: [
+                        { icon: '❄️', text: 'Caldo Gelado' },
+                        { icon: '🍄', text: 'Shitake & Kombu' },
+                        { icon: '🥩', text: 'Rosbife Suíno' },
+                        { icon: '🌈', text: 'Colorido' }
+                    ]
+                },
+                'Gyoza': {
+                    description: 'Deliciosos pastéis japoneses com massa fina e recheio suculento de carne de porco temperada com gengibre, alho e cebolinha. Grelhados até ficarem dourados e crocantes na base, servidos com molho especial de soja e vinagre. Uma entrada perfeita e tradicional.',
+                    image: '/static/img/porcoes-acompanhamentos/gyoza.jpg',
+                    features: [
+                        { icon: '🥟', text: 'Massa Fina' },
+                        { icon: '🔥', text: 'Crocante' },
+                        { icon: '🧄', text: 'Temperado' },
+                        { icon: '🥢', text: 'Tradicional' }
+                    ]
+                },
+                'Harumaki': {
+                    description: 'Rolinhos primavera crocantes e dourados, recheados com vegetais frescos, brotos de feijão, cenoura juliana e repolho. Fritos na temperatura perfeita para garantir uma casca crocante e interior suculento. Acompanha molho agridoce tradicional.',
+                    image: '/static/img/porcoes-acompanhamentos/harumaki.jpg',
+                    features: [
+                        { icon: '🥕', text: 'Vegetais Frescos' },
+                        { icon: '🔥', text: 'Crocante' },
+                        { icon: '🍯', text: 'Molho Agridoce' },
+                        { icon: '🌱', text: 'Leve' }
+                    ]
+                },
+                'Temaki Salmão': {
+                    description: 'Cone de alga nori crocante recheado com arroz temperado, fatias generosas de salmão fresco, pepino em juliana e uma pitada de gergelim. Preparado na hora para garantir a textura perfeita, é uma explosão de sabores do mar em cada mordida.',
+                    image: '/static/img/sushi-bar/temaki-salmao.jpg',
+                    features: [
+                        { icon: '🐟', text: 'Salmão Fresco' },
+                        { icon: '🍚', text: 'Arroz Temperado' },
+                        { icon: '🥒', text: 'Pepino Crocante' },
+                        { icon: '🌊', text: 'Sabor do Mar' }
+                    ]
+                },
+                'Temaki Kani': {
+                    description: 'Temaki recheado com kani desfiado (caranguejo), abacate cremoso, pepino crocante e maionese especial. O sabor suave do kani combina perfeitamente com a cremosidade do abacate, criando uma experiência única e refrescante.',
+                    image: '/static/img/sushi-bar/temaki-kani.jpg',
+                    features: [
+                        { icon: '🦀', text: 'Kani Fresco' },
+                        { icon: '🥑', text: 'Abacate Cremoso' },
+                        { icon: '🥒', text: 'Pepino' },
+                        { icon: '🍃', text: 'Refrescante' }
+                    ]
+                },
+                'Hot Roll Philadelphia': {
+                    description: 'Uramaki empanado e frito, recheado com salmão fresco e cream cheese, coberto com uma cremosa mistura de queijos gratinados. Servido quente e crocante por fora, cremoso por dentro, acompanhado de molho tarê doce e gergelim torrado.',
+                    image: '/static/img/sushi-bar/hot-roll-philadelphia.jpg',
+                    features: [
+                        { icon: '🔥', text: 'Servido Quente' },
+                        { icon: '🧀', text: 'Cream Cheese' },
+                        { icon: '🐟', text: 'Salmão' },
+                        { icon: '✨', text: 'Empanado' }
+                    ]
+                },
+                'Udon': {
+                    description: 'Macarrão grosso e macio servido em caldo quente e reconfortante, acompanhado de tempurá de legumes crocante, kamaboko, cebolinha fresca e uma folha de nori. Uma sopa tradicional japonesa perfeita para qualquer ocasião.',
+                    image: '/static/img/pratos-principais/udon.jpg',
+                    features: [
+                        { icon: '🍜', text: 'Caldo Quente' },
+                        { icon: '🍤', text: 'Tempurá' },
+                        { icon: '🍃', text: 'Cebolinha' },
+                        { icon: '🇯🇵', text: 'Tradicional' }
+                    ]
+                },
+                'Sobá': {
+                    description: 'Macarrão de trigo sarraceno servido gelado com molho tsuyu concentrado para mergulhar. Acompanha wasabi fresco, gengibre ralado e cebolinha. Uma opção refrescante e saudável, tradicionalmente consumida no verão japonês.',
+                    image: '/static/img/pratos-principais/soba.jpg',
+                    features: [
+                        { icon: '❄️', text: 'Servido Gelado' },
+                        { icon: '🌿', text: 'Wasabi' },
+                        { icon: '🫚', text: 'Gengibre' },
+                        { icon: '🌞', text: 'Refrescante' }
+                    ]
+                },
+                'Dorayaki': {
+                    description: 'Pancakes japoneses macios e fofinhos recheados com doce de feijão azuki tradicional. Cada mordida oferece a doçura equilibrada do azuki envolvida pela textura macia e ligeiramente doce das pancakes. Uma sobremesa clássica e reconfortante.',
+                    image: '/static/img/bebidas-drinks/dorayaki.jpg',
+                    features: [
+                        { icon: '🥞', text: 'Pancakes Macios' },
+                        { icon: '🫘', text: 'Feijão Azuki' },
+                        { icon: '🍯', text: 'Doce Natural' },
+                        { icon: '☁️', text: 'Textura Fofa' }
+                    ]
+                },
+                'Mochi de Sorvete': {
+                    description: 'Deliciosos bolinhos de massa de arroz macia e elástica recheados com sorvete cremoso nos sabores baunilha, chocolate ou morango. Uma sobremesa refrescante que combina a textura única do mochi com o sabor gelado do sorvete.',
+                    image: '/static/img/bebidas-drinks/mochi-de-sorvete.jpg',
+                    features: [
+                        { icon: '🍡', text: 'Massa de Arroz' },
+                        { icon: '🍦', text: 'Sorvete Cremoso' },
+                        { icon: '❄️', text: 'Gelado' },
+                        { icon: '🎨', text: 'Vários Sabores' }
+                    ]
+                }
+            };
+
+            return descriptions[name] || {
+                description: originalDescription || 'Delicioso prato preparado com ingredientes frescos e técnicas tradicionais japonesas. Uma experiência gastronômica única que combina sabor autêntico com apresentação impecável.',
+                image: '/static/img/pratos-principais/placeholder.jpg',
+                features: [
+                    { icon: '🍽️', text: 'Tradicional' },
+                    { icon: '🇯🇵', text: 'Japonês' },
+                    { icon: '✨', text: 'Especial' }
+                ]
+            };
+        }
+
+        // Sistema de menu inteligente sem scroll
+        function initIntelligentMenu() {
+            const menuContainer = document.getElementById('menuAutoLayout');
+            if (!menuContainer) return;
+            
+            const menuItems = menuContainer.querySelectorAll('.sidebar-menu-item');
+            const itemCount = menuItems.length;
+            
+            // Remove classes existentes
+            menuContainer.classList.remove('size-small', 'size-medium', 'size-large');
+            
+            // Aplica layout baseado no número de itens
+            if (itemCount <= 8) {
+                menuContainer.classList.add('size-small');
+            } else if (itemCount <= 11) {
+                menuContainer.classList.add('size-medium');
+            } else {
+                menuContainer.classList.add('size-large');
+            }
+            
+            console.log(`Menu inteligente: ${itemCount} seções organizadas automaticamente`);
+        }
+
+        // Função para alternar sidebar no mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            
+            sidebar.classList.toggle('active');
+            
+            // Atualiza o ícone do botão
+            if (sidebar.classList.contains('active')) {
+                mobileToggle.innerHTML = '✕';
+                mobileToggle.style.background = 'rgba(139, 21, 56, 0.9)';
+            } else {
+                mobileToggle.innerHTML = '☰';
+                mobileToggle.style.background = 'rgba(184, 134, 11, 0.9)';
+            }
+        }
+        
+        // Fecha o menu ao clicar fora dele no mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !mobileToggle.contains(event.target) &&
+                sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+        });
+
+        // Inicializar quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('RamenK redesign loaded successfully!');
+            initIntelligentMenu();
+        });
+
+        // Reinicializar se a janela for redimensionada
+        window.addEventListener('resize', function() {
+            setTimeout(initIntelligentMenu, 100);
+        });
+    </script>
+</body>
+</html>

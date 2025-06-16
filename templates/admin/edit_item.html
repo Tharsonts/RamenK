@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Item - RamenK Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ramenk-redesign.css') }}">
+    <style>
+        .edit-form {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .image-section {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            background: #f7fafc;
+            transition: all 0.3s ease;
+        }
+
+        .image-section:hover {
+            border-color: #3182ce;
+            background: #edf2f7;
+        }
+
+        .image-preview-container {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .image-preview {
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .image-status.has-image {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .image-status.no-image {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #edf2f7;
+        }
+
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #718096;
+        }
+
+        .current-image-info {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .new-image-info {
+            background: #fef5e7;
+            border: 1px solid #f6ad55;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .flash-messages {
+            margin-bottom: 1.5rem;
+        }
+
+        .flash-message {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .flash-message.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 1px solid #9ae6b4;
+        }
+
+        .flash-message.error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 1px solid #feb2b2;
+        }
+        .form-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .left-column, .right-column {
+            flex: 1;
+            min-width: 320px;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <div class="admin-container">
+        <div class="edit-form">
+            <div class="header">
+                <h1>Editar Item</h1>
+                <p>Seção: {{ section.name }}</p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="remove_image" name="remove_image" value="false">
+            
+                <div class="form-columns">
+                    <!-- COLUNA ESQUERDA: imagem atual + upload -->
+                    <div class="left-column">
+            
+                        {% if item.image_path %}
+                        <div class="current-image-info">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #22543d;">📷 Imagem Atual</h4>
+                            <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}" class="image-preview" id="currentImage">
+                            <p style="font-size: 0.875rem; color: #555;">Arquivo atual: <code>{{ item.image_path.split('/')[-1] }}</code></p>
+                            <span class="image-status has-image">✅ Imagem carregada</span>
+            
+                            <!-- botão para marcar remoção -->
+                            <button type="button" class="btn btn-danger" style="margin-top: 1rem;" onclick="markImageForRemoval()">
+                                🗑️ Marcar para Remoção
+                            </button>
+                        </div>
+                        {% else %}
+                        <div class="current-image-info">
+                            <h4 style="margin: 0 0 0.5rem 0; color: #742a2a;">📷 Imagem Atual</h4>
+                            <span class="image-status no-image">❌ Nenhuma imagem</span>
+                        </div>
+                        {% endif %}
+            
+                        <!-- Upload -->
+                        <div class="image-section">
+                            <h4 style="margin: 0 0 1rem 0; color: #744210;">🔄 Nova Imagem (Opcional)</h4>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="image" name="image" accept="image/*" onchange="previewImage(this)">
+                                <label for="image" class="file-input-label">
+                                    📁 Selecionar Nova Imagem
+                                </label>
+                            </div>
+                            <p style="margin: 0.5rem 0 0; font-size: 0.875rem; color: #718096;">
+                                Formatos aceitos: PNG, JPG, JPEG, GIF, WEBP (máx. 16MB)
+                            </p>
+                            <p id="newFileName" style="font-size: 0.875rem; color: #555;"></p>
+            
+                            <div id="newImagePreview" class="new-image-info" style="display: none;">
+                                <h4 style="color: #744210;">🆕 Nova Imagem Selecionada</h4>
+                                <img id="newImage" class="image-preview" alt="Preview da nova imagem">
+                                <span class="image-status has-image">🔄 Será substituída</span>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- COLUNA DIREITA: campos -->
+                    <div class="right-column">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Nome do Prato *</label>
+                            <input type="text" id="name" name="name" class="form-input" value="{{ item.name }}" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="price" class="form-label">Preço *</label>
+                            <input type="text" id="price" name="price" class="form-input" value="{{ item.price }}" placeholder="R$ 25,90" required>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea id="description" name="description" class="form-textarea" placeholder="Descrição detalhada do prato...">{{ item.description or '' }}</textarea>
+                        </div>
+            
+                        <div class="btn-group">
+                            <a href="{{ url_for('admin_section_items', section_id=section.id) }}" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">💾 Salvar Alterações</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+    <script>
+        // Preview da nova imagem antes de fazer upload
+        function previewImage(input) {
+            const file = input.files[0];
+            const previewContainer = document.getElementById('newImagePreview');
+            const previewImg = document.getElementById('newImage');
+            
+            if (file) {
+                // Validar tamanho do arquivo (16MB)
+                if (file.size > 16 * 1024 * 1024) {
+                    alert('Arquivo muito grande! Tamanho máximo: 16MB');
+                    input.value = '';
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+                
+                // Validar tipo do arquivo
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Formato de arquivo não suportado! Use: PNG, JPG, JPEG, GIF ou WEBP');
+                    input.value = '';
+                    previewContainer.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        }
+
+        // Formatação automática do preço
+        document.getElementById('price').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d,]/g, '');
+            if (value && !value.startsWith('R$')) {
+                if (!value.includes(',')) {
+                    value = value + ',00';
+                }
+                e.target.value = 'R$ ' + value;
+            }
+        });
+
+        // Confirmação antes de enviar formulário
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fileInput = document.getElementById('image');
+            const removeImageField = document.getElementById('remove_image');
+            
+            // Se uma nova imagem foi selecionada, confirmar substituição
+            if (fileInput.files.length > 0) {
+                const confirmed = confirm('Uma nova imagem foi selecionada. A imagem atual será substituída. Continuar?');
+                if (!confirmed) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            
+            // Se a imagem está marcada para remoção, confirmar
+            if (removeImageField.value === 'true') {
+                const confirmed = confirm('A imagem atual será removida. Esta ação não pode ser desfeita. Continuar?');
+                if (!confirmed) {
+                    e.preventDefault();
+                    return;
+                }
+            }
+        });
+
+        // Função para marcar imagem para remoção
+        function markImageForRemoval() {
+            const removeImageField = document.getElementById('remove_image');
+            const fileInput = document.getElementById('image');
+            const newImagePreview = document.getElementById('newImagePreview');
+            
+            // Limpar arquivo selecionado
+            fileInput.value = '';
+            newImagePreview.style.display = 'none';
+            
+            // Marcar para remoção
+            removeImageField.value = 'true';
+            
+            // Mostrar indicador visual
+            const currentImage = document.getElementById('currentImage');
+            if (currentImage) {
+                currentImage.style.opacity = '0.5';
+                currentImage.style.filter = 'grayscale(100%)';
+            }
+            
+            // Atualizar status
+            const statusElement = document.querySelector('.image-status.has-image');
+            if (statusElement) {
+                statusElement.textContent = '🗑️ Será removida';
+                statusElement.className = 'image-status no-image';
+            }
+        }
+
+        // Função para desmarcar remoção de imagem
+        function unmarkImageForRemoval() {
+            const removeImageField = document.getElementById('remove_image');
+            const currentImage = document.getElementById('currentImage');
+            
+            // Desmarcar remoção
+            removeImageField.value = 'false';
+            
+            // Restaurar visual da imagem
+            if (currentImage) {
+                currentImage.style.opacity = '1';
+                currentImage.style.filter = 'none';
+            }
+            
+            // Restaurar status
+            const statusElement = document.querySelector('.image-status.no-image');
+            if (statusElement && statusElement.textContent.includes('Será removida')) {
+                statusElement.textContent = '✅ Imagem carregada';
+                statusElement.className = 'image-status has-image';
+            }
+        }
+
+        // Adicionar botão para marcar remoção (se não existir botão de remoção)
+        {% if item.image_path %}
+        // Adicionar botão alternativo para marcar remoção
+        const imageContainer = document.querySelector('.current-image-info');
+        if (imageContainer && !imageContainer.querySelector('form')) {
+            const markRemovalBtn = document.createElement('button');
+            markRemovalBtn.type = 'button';
+            markRemovalBtn.className = 'btn btn-danger';
+            markRemovalBtn.style.cssText = 'padding: 0.5rem 1rem; font-size: 0.875rem; margin-top: 0.5rem;';
+            markRemovalBtn.textContent = '🗑️ Marcar para Remoção';
+            markRemovalBtn.onclick = markImageForRemoval;
+            
+            const previewContainer = imageContainer.querySelector('.image-preview-container');
+            if (previewContainer) {
+                previewContainer.appendChild(markRemovalBtn);
+            }
+        }
+        {% endif %}
+    </script>
+</body>
+</html>

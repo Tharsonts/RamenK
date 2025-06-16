@@ -1,0 +1,599 @@
+/* Ultra Premium Digital Menu Design */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+    --primary-burgundy: #8B0000;
+    --deep-gold: #D4AF37;
+    --champagne: #F7E7CE;
+    --charcoal: #2C2C2C;
+    --pearl-white: #FEFEFE;
+    --soft-silver: #F8F8F8;
+    --accent-copper: #B87333;
+    --midnight: #1A1A1A;
+    --rouge: #C41E3A;
+    --ivory: #FFFFF0;
+    
+    --gradient-luxury: linear-gradient(135deg, var(--primary-burgundy) 0%, var(--rouge) 50%, var(--deep-gold) 100%);
+    --gradient-elegant: linear-gradient(45deg, var(--deep-gold) 0%, var(--accent-copper) 100%);
+    --gradient-subtle: linear-gradient(180deg, var(--pearl-white) 0%, var(--soft-silver) 100%);
+    
+    --shadow-luxury: 0 20px 60px rgba(139, 0, 0, 0.15);
+    --shadow-elegant: 0 15px 40px rgba(212, 175, 55, 0.2);
+    --shadow-soft: 0 8px 25px rgba(44, 44, 44, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.7;
+    color: var(--charcoal);
+    background: var(--ivory);
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.02) 0%, transparent 50%),
+        linear-gradient(135deg, transparent 0%, rgba(247, 231, 206, 0.3) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Luxury Header */
+.luxury-header {
+    background: var(--gradient-luxury);
+    color: var(--pearl-white);
+    text-align: center;
+    padding: 6rem 2rem;
+    position: relative;
+    overflow: hidden;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.luxury-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 15L60 35L80 35L65 50L70 70L50 60L30 70L35 50L20 35L40 35Z' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E") repeat;
+    animation: float 20s infinite linear;
+    z-index: 1;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+.header-luxury-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.brand-emblem {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    background: var(--gradient-elegant);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    box-shadow: var(--shadow-luxury);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.restaurant-name-luxury {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ffffff 30%, var(--champagne) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tagline-luxury {
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    opacity: 0.95;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+.excellence-badge {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+}
+
+/* Premium Navigation */
+.premium-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-soft);
+}
+
+.nav-luxury-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.nav-luxury-container::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-luxury-menu {
+    display: flex;
+    list-style: none;
+    gap: 0;
+    white-space: nowrap;
+}
+
+.nav-luxury-item {
+    flex-shrink: 0;
+}
+
+.nav-luxury-link {
+    display: flex;
+    align-items: center;
+    padding: 2rem 2.5rem;
+    text-decoration: none;
+    color: var(--charcoal);
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    text-transform: uppercase;
+}
+
+.nav-luxury-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-elegant);
+    transition: all 0.4s ease;
+    transform: translateX(-50%);
+}
+
+.nav-luxury-link:hover {
+    color: var(--primary-burgundy);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(139, 0, 0, 0.02));
+}
+
+.nav-luxury-link:hover::before {
+    width: 80%;
+}
+
+.nav-luxury-icon {
+    font-size: 1.3rem;
+    margin-right: 1rem;
+    background: var(--gradient-elegant);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Elegant Content */
+.elegant-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+/* Spotlight Section */
+.spotlight-section {
+    text-align: center;
+    margin-bottom: 6rem;
+    padding: 4rem 2rem;
+    background: var(--gradient-subtle);
+    border-radius: 30px;
+    border: 2px solid rgba(212, 175, 55, 0.1);
+    box-shadow: var(--shadow-elegant);
+    position: relative;
+    overflow: hidden;
+}
+
+.spotlight-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+    z-index: 1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spotlight-content {
+    position: relative;
+    z-index: 2;
+}
+
+.spotlight-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--primary-burgundy);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.spotlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3rem;
+    margin-top: 3rem;
+}
+
+.spotlight-card {
+    background: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-elegant);
+}
+
+.spotlight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-luxury);
+}
+
+.spotlight-badge {
+    position: absolute;
+    top: -10px;
+    right: 2rem;
+    background: var(--gradient-luxury);
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.spotlight-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+}
+
+.spotlight-card-text {
+    color: var(--charcoal);
+    opacity: 0.8;
+    line-height: 1.6;
+}
+
+/* Category Sections */
+.category-luxury-section {
+    margin-bottom: 6rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.category-luxury-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding-bottom: 2rem;
+    position: relative;
+}
+
+.category-luxury-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: var(--gradient-elegant);
+}
+
+.category-luxury-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    color: var(--primary-burgundy);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.category-luxury-subtitle {
+    font-size: 1.2rem;
+    color: var(--charcoal);
+    opacity: 0.7;
+    font-weight: 300;
+    letter-spacing: 1px;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* Menu Grid */
+.menu-luxury-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2.5rem;
+}
+
+.menu-luxury-item {
+    background: white;
+    border-radius: 25px;
+    padding: 3rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-luxury-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--gradient-elegant);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+}
+
+.menu-luxury-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-luxury);
+    border-color: var(--deep-gold);
+}
+
+.menu-luxury-item:hover::before {
+    transform: scaleX(1);
+}
+
+.item-luxury-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 2rem;
+}
+
+.item-luxury-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    line-height: 1.4;
+    flex: 1;
+    letter-spacing: 0.5px;
+}
+
+.item-luxury-price {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    background: var(--gradient-luxury);
+    padding: 0.8rem 1.8rem;
+    border-radius: 30px;
+    white-space: nowrap;
+    box-shadow: var(--shadow-elegant);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.item-luxury-price::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.menu-luxury-item:hover .item-luxury-price::before {
+    left: 100%;
+}
+
+.item-luxury-description {
+    color: var(--charcoal);
+    opacity: 0.8;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    font-style: italic;
+    font-weight: 300;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Elegant Footer */
+.elegant-footer {
+    background: var(--midnight);
+    color: var(--pearl-white);
+    text-align: center;
+    padding: 4rem 2rem;
+    margin-top: 6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.elegant-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-luxury);
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.footer-luxury-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-luxury-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.footer-luxury-text {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.footer-luxury-ornament {
+    font-size: 2rem;
+    opacity: 0.8;
+    letter-spacing: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-name-luxury {
+        font-size: 3rem;
+    }
+    
+    .nav-luxury-link {
+        padding: 1.5rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .menu-luxury-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .menu-luxury-item {
+        padding: 2rem;
+    }
+    
+    .item-luxury-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .item-luxury-price {
+        align-self: flex-end;
+    }
+    
+    .category-luxury-title {
+        font-size: 2.5rem;
+    }
+    
+    .spotlight-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Special Effects */
+.shimmer {
+    background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.4) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
